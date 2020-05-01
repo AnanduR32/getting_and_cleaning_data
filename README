@@ -1,0 +1,40 @@
+Peer-graded Assignment: Getting and Cleaning Data Course Project
+
+This repository is a Git submission for 'Getting and Cleaning Data' course project. 
+It has the instructions on how to run_analysis.R script on Human Activity recognition
+dataset.
+
+Dataset
+Human Activity Recognition Using Smartphones 
+(URL: http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
+
+Files
+1. Codebook.Rmd
+This is an R Markdown file (you can open it in RStudio or any text editor) that describes
+the variables, the data, and all transformations or work that was performed to clean up
+the data.
+
+2. run_analysis.R
+This is the R script that does data preparation as needed and creates the output file
+(Final_Tidy_Data.txt) containing the tidy data set. The main functions of this script 
+are listed below:
+    * Downloads the zip file containing raw input data set 
+    * Merges the training and the test data sets to create one data set.
+    * Extracts only the measurements on the mean and standard deviation.
+    * Uses descriptive activity names to name the activities in the data set.
+    * Appropriately labels the data set with descriptive variable names.
+    * From the data set in step 4, creates a second, independent tidy data set with the
+      average of each variable for each activity and each subject.
+    * Creates output file Final_Tidy_Data.txt with the final tidy data set
+To run: you can simply open this script in RStudio and source it or run in line-by-line
+
+3. Final_Tidy_Data.txt
+This is the output file created by the run_analysis.R script containing the final, tidy
+data set.
+To open: You can open this file in any text editor
+To load: You can load this file in RStudio using these commands:
+    * Download the file to a local folder
+    * tidy_data <- read.table("<path_to_the_folder>/Final_Tidy_Data.txt")
+    * head(tidy_data) to print first 6 rows
+    * str(tidy_data) to print the structure of tidy_data data frame
+    * tidy_data to print entire data frame

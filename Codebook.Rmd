@@ -1,0 +1,89 @@
+---
+title: "Codebook"
+output: Final_Tidy_Data.txt
+---
+
+## Goal
+The goal of the run_analysis.R script is to get and prepare the data sets and create a merged, tidy data set as output through 5 steps listed below.
+
+## Downloading the raw/input data set
+The zip file containing the raw data is downloaded from https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip and is uncompressed in the default folder "UCI HAR Dataset"
+
+## Load text files as data tables
+In this stage, all required text files we need in the flow are read as data tables and stored in corresponding variables, while setting relevant column names.
+
+  * subject_train <- train/subject_train.txt : 7352 rows, 1 column
+    This is the list of subjects for each corresponding observation of the training data set
+    
+  * subject_test <- test/subject_test.txt : 2947 rows, 1 column
+    This is the list of subjects for each corresponding observation of the testing data set
+    
+  * y_train <- train/y_train.txt : 7352 rows, 1 column
+    This is the activity code of each corresponding observation of the training data set
+    
+  * y_test <- test/y_test.txt : 2947 rows, 1 column
+    This is the activity code of each corresponding observation of the testing data set
+    
+  * feature_names <- features.txt : 561 rows, 2 columns
+    These are the feature names i.e. the column names for the training and testing data set
+    
+  * X_train <- train/X_train.txt : 7352 rows, 561 columns
+    This is the training data set with measurements for all subjects and features
+    
+  * X_test <- test/X_test.txt : 2947 rows, 561 columns
+    This is the testing data set with measurements for all subjects and features
+  
+  * activities <- activity_labels.txt : 6 rows, 2 columns
+    This variable contains information regarding activities. Column 1 is the list of activity codes and column 2 of the table is the list of descriptive activity labels for those codes
+
+## TASK 1: Combine all training and testing data
+In this section, we merge subjects and activity codes to training and testing data and then combine the two together to get comprehensive data set. List of variables:
+
+  * training_data : 7352 rows, 563 columnns
+    This variable contains the subject, training measurements (X_train) and activity code, merged together using cbind()
+    
+  * testing_data : 2947 rows, 563 columns
+    This variable contains the subject, testing measurements (X_test) and activity code, merged together using cbind()
+    
+  * merged_data : 10299 rows, 563 columns
+    This variable contains training data, as well as the testing data, merged together using rbind()
+
+
+## TASK 2: Extract only mean and std measurements
+Here we select only mean and standard deviation measurements. List of variables:
+  * merged_data : 10299 rows, 88 columns
+    Using select() and contains() function, we select only the measurements on mean and standard deviation
+    
+## TASK 3: Uses descriptive activity names to name the activities in the data set
+In this section, short activity names are replaced by descriptive activity names. List of variables:
+  * merged_data : 10299 rows, 88 columns
+    Using mutate(), we mutate the existing merged_data table and replace codes in Activity column by descriptive string values of the activities (fetched from column 2 of the activities data table)
+    
+## TASK 4: Appropriately label the data set with descriptive variable names
+All the column names are modified in this section to more meaningful names. List of variables:
+  * merged_data : 10299 rows, 88 columns
+    gsub is used for global substitution of required strings. List of modifications:
+      * Acc is replaced by Accelerometer
+      * Gyro is replaced by Gyroscope
+      * BodyBody is replaced by Body
+      * Mag is replaced by Magnitude
+      * time is replaced by Time
+      * frequency and -freq- is replaced by Frequency 
+      * tBody is replaced by TimeBody
+      * -mean()- is replaced by Mean
+      * -std()- is replaced by standard deviation
+      * angle is replaced by Angle
+      * gravity is replaced by Gravity
+    All these substitutions replace the column names by saving the results back to names(merged_data)
+
+## TASK 5: Create new/final data set with average of each variable for each activity and subject
+In this section, the script creates the final, tidy data set that is written to the output file - Final_Tidy_Data.txt
+List of variables:
+  * tidy_data : 180 rows, 88 columns
+    This tibble is created in three steps:
+      * Grouping all measurements by Subject and Activity labels
+      * Moving Activity column to second position (from last)
+      * Calculating mean of every measurement in the table using summarise_all(funs(mean)) function call
+
+## Output file
+tidy_data is the final table we need to be printed in the output file. Using "write.table", the run_analysis.R script creates "Final_Tidy_Data.txt" file in the current work directory
